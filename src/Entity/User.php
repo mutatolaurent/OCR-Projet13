@@ -35,13 +35,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstname = null;
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $secondname = null;
+    private ?string $lastName = null;
 
     #[ORM\Column]
-    private ?bool $cguok = null;
+    private ?bool $cguOK = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $accesAPI = null;
@@ -144,38 +144,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function getFirstname(): ?string
+    public function getfirstName(): ?string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $firstname): static
+    public function setfirstName(string $firstName): static
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getSecondname(): ?string
+    public function getlastName(): ?string
     {
-        return $this->secondname;
+        return $this->lastName;
     }
 
-    public function setSecondname(string $secondname): static
+    public function setlastName(string $lastName): static
     {
-        $this->secondname = $secondname;
+        $this->lastName = $lastName;
 
         return $this;
     }
 
-    public function isCguok(): ?bool
+    public function iscguOK(): ?bool
     {
-        return $this->cguok;
+        return $this->cguOK;
     }
 
-    public function setCguok(bool $cguok): static
+    public function setcguOK(bool $cguOK): static
     {
-        $this->cguok = $cguok;
+        $this->cguOK = $cguOK;
 
         return $this;
     }
