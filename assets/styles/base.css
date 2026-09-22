@@ -143,3 +143,9 @@ main {
     width: 19px;
     height: 19px;
 }
+
+.erreur-item {
+    color: red;
+    font-size: 12px;
+    font-weight: 400;
+}

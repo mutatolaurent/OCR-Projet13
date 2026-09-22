@@ -1,0 +1,63 @@
+{% form_theme registrationForm 'registration/form_theme.html.twig' %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <main>
+        <section class="cnx-reg-sec">
+            <img class="img-cnx" src="{{ asset('img/reg-1.png') }}" alt="" />
+            <div class="div-form">
+                <h1>Inscription</h1>
+                <p>Tous les champs sont obligatoires</p>
+
+                {{ form_errors(registrationForm) }}
+
+                {{ form_start(registrationForm) }}
+                    <div class="champ-formulaire">
+                        {{ form_label(registrationForm.lastName, 'Nom') }}
+                        {{ form_widget(registrationForm.lastName) }}
+                        {{ form_errors(registrationForm.lastName) }}
+                    </div>
+
+                    <div class="champ-formulaire">
+                        {{ form_label(registrationForm.firstName, 'Prénom') }}
+                        {{ form_widget(registrationForm.firstName) }}
+                        {{ form_errors(registrationForm.firstName) }}
+                    </div>
+
+                    <div class="champ-formulaire">
+                        {{ form_label(registrationForm.email, 'Adresse mail') }}
+                        {{ form_widget(registrationForm.email) }}
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+
+                    {# Premier champ : Le mot de passe #}
+                    <div class="champ-formulaire">
+                        {{ form_label(registrationForm.password.first, 'Mot de passe') }}
+                        {{ form_widget(registrationForm.password.first) }}
+                        {{ form_errors(registrationForm.password.first) }}
+                    </div>
+
+                    {# Second champ : La confirmation #}
+                    <div class="champ-formulaire">
+                        {{ form_label(registrationForm.password.second, 'Confirmation du mot de passe') }}
+                        {{ form_widget(registrationForm.password.second) }}
+                        {{ form_errors(registrationForm.password.second) }}
+                    </div>
+
+                    <div class="checkbox-formulaire">
+                        {{ form_widget(registrationForm.agreeTerms) }}
+                        {{ form_label(registrationForm.agreeTerms, 'J\'accepte les CGU de Green Goodies') }}
+                        {{ form_errors(registrationForm.agreeTerms) }}
+                    </div>
+                    {{ form_rest(registrationForm) }}
+                    <button class="btn-form btn-registration">S'inscrire</button>
+                {{ form_end(registrationForm) }}
+
+                <a href="#">Déjà un compte ? Se connecter</a>
+            </div>
+        </section>
+    </main>
+{% endblock %}
