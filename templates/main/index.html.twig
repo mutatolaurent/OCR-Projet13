@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil Green Goodies{% endblock %}
+
+{% block body %}
+    <main>
+        {# Section Bienvenue #}
+        <section class="hp-sec-1">
+            <div class="hp-sec-1-div-gauche">
+                <h1>Bienvenue</h1>
+                <p>
+                    Découvrez notre univers de produits durables et éthiques
+                    pour une consommation responsable.
+                    <br /><br />Retrouvez des articles d’hygiène & beauté,
+                    des accessoires & boissons et du prêt à porter
+                </p>
+            </div>
+            <div class="hp-sec-1-div-droite">
+                <img src="{{ asset('img/hp_1.png') }}" alt="" />
+            </div>
+        </section>
+
+        {# Section Nos produits #}
+        <section class="hp-sec-2">
+            <div class="hp-sec-2-title">
+                <h2>Nos produits</h2>
+            </div>
+            <div class="hp-sec-2-product-cards">
+                {% for product in products %}
+                    <article class="card">
+                        <img
+                            src="{{ asset('img/' ~ product.picture) }}"
+                            alt="{{ product.designation }}"
+                        />
+                        <h3>{{ product.designation }}</h3>
+                        <p>{{ product.shortDescr }}</p>
+                        <h4>{{ product.priceCurrent }}€</h4>
+                        <a href="{{ path('app_product', {slug: product.slug}) }}">Voir le produit</a>
+                    </article>
+                {% else %}
+                    <p>Aucun produit trouvé</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# Section Notre conviction #}
+        <section class="hp-sec-3">
+            <div class="hp-sec-3-div-gauche">
+                <h2>Notre conviction</h2>
+                <p>
+                    Chez GreenGoodies, nous croyons en un monde où le
+                    commerce peut être synonyme de bien-être pour la planète
+                    et ses habitants. Notre mission est de vous proposer une
+                    sélection rigoureuse de produits qui allient qualité,
+                    durabilité et éthique.
+                </p>
+            </div>
+            <div class="hp-sec-3-div-droite">
+                <img src="{{ asset('img/hp_2.png') }}" alt="" />
+            </div>
+        </section>
+
+        {# Section Nos valeurs #}
+        <section class="hp-sec-4">
+            <div class="hp-sec-4-div-gauche">
+                <img src="{{ asset('img/hp_3.png') }}" alt="" />
+            </div>
+            <div class="hp-sec-4-div-droite">
+                <h2>Nos valeurs</h2>
+                <p>
+                    Durabilité : Nous sélectionnons soigneusement des
+                    produits qui respectent l'environnement et favorisent la
+                    durabilité. Éthique : Nous nous engageons à travailler
+                    avec des partenaires et des fournisseurs qui partagent
+                    nos valeurs éthiques. Écologie : Nous encourageons des
+                    pratiques respectueuses de l'écosystème et privilégions
+                    les matériaux écologiques.
+                </p>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}

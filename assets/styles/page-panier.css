@@ -1,0 +1,135 @@
+.panier-sec {
+  background-color: var(--saumon);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.panier-sec h1 {
+  color: var(--gris-fonce);
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 102px;
+}
+
+.panier-cta {
+  width: 604px;
+}
+
+.panier-cta-remove {
+  color: var(--gris-clair);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 16px;
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+.panier-list {
+  margin-top: 17px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panier-list a {
+  text-decoration: none;
+}
+
+.panier-sec article {
+  display: flex;
+  width: 604px;
+  margin-bottom: 5px;
+  padding: 40px 38px 47.29px 43px;
+  background-color: var(--blanc);
+}
+
+.panier-sec article img {
+  width: 142px;
+  height: 132.173px;
+  object-fit: fill;
+}
+
+.panier-product-descr {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 55px;
+}
+
+.panier-product-descr h2 {
+  color: var(--noir);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.panier-product-descr p {
+  color: var(--gris-clair);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 6px;
+}
+
+.panier-product-descr h3 {
+  color: var(--gris-fonce);
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 13px;
+}
+
+.panier-total {
+  width: 604px;
+  height: 81px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-end; */
+  justify-content: center;
+  padding-left: 415px;
+  background-color: var(--blanc);
+}
+
+.panier-price {
+  display: flex;
+  align-items: center;
+}
+
+.panier-total p {
+  color: var(--gris-clair);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.panier-price p {
+  color: var(--gris-fonce);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.panier-price h3 {
+  color: var(--gris-fonce);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.btn-valid {
+  height: 77px;
+  width: 479px;
+  text-align: center;
+  color: var(--blanc);
+  background-color: var(--gris-bouton);
+  text-decoration: none; /* Remove underlines */
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.marge-panier {
+  margin-top: 29px;
+  margin-bottom: 146px;
+}
+
+.btn-valid:hover {
+  background-color: var(--noir);
+}

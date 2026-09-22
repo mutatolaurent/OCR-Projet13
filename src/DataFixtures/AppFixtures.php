@@ -54,7 +54,7 @@ class AppFixtures extends Fixture
         return 'REF' . $randomString;
     }
 
-    private function generateSlug(string $text): string
+    private function generateSlug(int $id, string $text): string
     {
         // 1. Convertit les caractères accentués en leur équivalent ASCII (ex: é -> e, à -> a, ç -> c)
         $text = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
@@ -66,7 +66,8 @@ class AppFixtures extends Fixture
         $text = preg_replace('/[^a-z0-9]+/', '_', $text);
 
         // // 4. Nettoie les éventuels "_" superflus qui se seraient créés au tout début ou à la fin de la chaîne
-        return trim($text, '_');
+        $baseSlug = trim($text, '_');
+        return $id . '_' . $baseSlug;
 
     }
 
@@ -82,8 +83,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $product = new Product();
         $product->setDesignation("Shot tropical");
@@ -95,8 +98,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $product = new Product();
         $product->setDesignation("Gourde en bois");
@@ -108,8 +113,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $product = new Product();
         $product->setDesignation("Disques Démaquillants x3");
@@ -121,8 +128,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $product = new Product();
         $product->setDesignation("Bougie Lavande & Patchouli");
@@ -134,8 +143,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $product = new Product();
         $product->setDesignation("Brosse à dent");
@@ -147,8 +158,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $product = new Product();
         $product->setDesignation("Kit couvert en bois");
@@ -160,8 +173,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $product = new Product();
         $product->setDesignation("Nécessaire, déodorant Bio");
@@ -173,8 +188,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $product = new Product();
         $product->setDesignation("Savon Bio");
@@ -186,8 +203,10 @@ class AppFixtures extends Fixture
         $product->setEan13($this->generateRandomEan13());
         $product->setLongDescr($this->generateLoremIpsum(100));
         $product->setSku($this->generateRandomSku());
-        $product->setSlug($this->generateSlug($product->getDesignation()));
+        $product->setSlug("slug");
         $manager->persist($product);
+        $manager->flush(); // Flush to get the ID
+        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
 
         $manager->flush();
     }

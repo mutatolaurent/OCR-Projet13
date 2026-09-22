@@ -1,3 +1,8 @@
-body {
-    background-color: skyblue;
-}
+@import url("./base.css");
+@import url("./header.css");
+@import url("./footer.css");
+@import url("./page-home.css");
+@import url("./page-product.css");
+@import url("./page-connexion-registration.css");
+@import url("./page-panier.css");
+@import url("./page-mon-compte.css");

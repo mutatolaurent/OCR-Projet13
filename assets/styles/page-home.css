@@ -1,0 +1,142 @@
+/*******************/
+/* Styles de la HP */
+/*******************/
+.hp-sec-1 {
+  display: flex;
+  background: var(--vert-clair);
+  height: 751px;
+}
+
+.hp-sec-1-div-gauche {
+  padding-top: 241px;
+  padding-left: 173px;
+  padding-right: 174px;
+}
+
+.hp-sec-1-div-gauche h1 {
+  margin-bottom: 38px;
+}
+
+.hp-sec-1-div-gauche p {
+  color: var(--gris-fonce);
+  font-size: 18px;
+  font-weight: 300;
+  width: 362px;
+}
+
+.hp-sec-3 {
+  display: flex;
+  background: var(--saumon);
+  height: 646px;
+}
+
+.hp-sec-3-div-gauche {
+  padding-top: 504px;
+  padding-left: 40px;
+  padding-right: 484px;
+}
+
+.hp-sec-3-div-gauche h2 {
+  margin-bottom: 10px;
+}
+
+.hp-sec-3-div-gauche p {
+  color: var(--gris-fonce);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.hp-sec-4 {
+  display: flex;
+  background: var(--vert-clair);
+  height: 646px;
+}
+
+.hp-sec-4-div-droite {
+  padding-top: 470px;
+  padding-left: 454px;
+  padding-right: 40px;
+}
+
+.hp-sec-4-div-droite h2 {
+  margin-bottom: 10px;
+}
+
+.hp-sec-4-div-droite p {
+  color: var(--gris-fonce);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+/********************************/
+/* Vignettes produits sur la HP */
+/********************************/
+.hp-sec-2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.hp-sec-2-title {
+  padding-left: 100px;
+  padding-top: 37px;
+  padding-bottom: 37px;
+}
+
+.hp-sec-2-title h2 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.hp-sec-2-product-cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 0 1 calc(33, 33%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card h3 {
+  color: var(--noir);
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 40px;
+}
+
+.card p {
+  color: var(--gris-clair);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 8px;
+}
+
+.card h4 {
+  color: var(--gris-fonce);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.card a {
+  height: 77px;
+  width: 100%;
+  text-align: center;
+  color: var(--noir);
+  text-decoration: none; /* Remove underlines */
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.card a:hover {
+  color: var(--blanc);
+  background-color: var(--gris-fonce);
+}

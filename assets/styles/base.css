@@ -1,0 +1,145 @@
+/**
+ * Reset css.
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --jaune-clair: #fffdf7;
+    --blanc: #fff;
+    --gris-fonce: #333;
+    --gris-clair: #666;
+    --vert-logo: #497555;
+    --max-width: 1440px;
+    --blanc-logo: #ffffffe6;
+    --vert-clair: #e8f0e3;
+    --saumon: #ebe3d3;
+    --noir: #000;
+    --gris-bouton: #565656;
+}
+
+/* Chargement en local de la Font Inter */
+
+@font-face {
+    font-family: "Inter";
+    src: url("./fonts/inter/Inter_28pt-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Chargement en local de la Font Playfair Display */
+@font-face {
+    font-family: "Playfair Display";
+    src: url("./fonts/playfairdisplay/PlayfairDisplay-Medium.ttf")
+        format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Styles globaux au body */
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    line-height: normal;
+    width: 100%;
+    max-width: var(--max-width);
+    background: var(--jaune-clair);
+    margin: 0 auto; /* Center the body horizontally */
+    min-height: 100vh; /* Ensure body takes full viewport height */
+}
+
+h1 {
+    color: var(--gris-fonce);
+    font-size: 64px;
+    font-weight: 500;
+}
+
+h2 {
+    color: var(--gris-fonce);
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow main content to take available space */
+}
+
+.champ-formulaire {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.champ-formulaire label {
+    color: var(--gris-clair);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.champ-formulaire input {
+    height: 67px;
+    width: 100%;
+    border: 1px solid var(--gris-clair);
+    padding-left: 20px;
+    font-family: Inter;
+}
+
+.champ-formulaire-select {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+    align-items: center;
+}
+
+.champ-formulaire-select label {
+    color: var(--gris-fonce);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.champ-formulaire-select select {
+    height: 30px;
+    border: 1px solid var(--gris-clair);
+    font-family: Inter;
+}
+
+.btn-form {
+    width: 100%;
+    height: 77px;
+    padding: 30px 183px;
+    background-color: var(--gris-bouton);
+    color: var(--blanc);
+    margin-top: 30px;
+    border: 0px;
+    cursor: pointer;
+}
+
+.btn-form:hover {
+    background-color: var(--noir);
+}
+
+.checkbox-formulaire {
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--gris-clair);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.checkbox-formulaire input {
+    width: 19px;
+    height: 19px;
+}

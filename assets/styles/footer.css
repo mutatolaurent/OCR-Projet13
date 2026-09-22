@@ -1,0 +1,19 @@
+/*******************/
+/* Style du footer */
+/*******************/
+footer {
+  width: 100%;
+  height: 81px;
+  background: var(--blanc);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 100px;
+}
+
+footer p {
+  color: var(--gris-fonce);
+  font-size: 14px;
+  font-weight: 400;
+}

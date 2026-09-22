@@ -1,0 +1,75 @@
+/*******************/
+/* Style du header */
+/*******************/
+header {
+  width: 100%;
+  height: 81px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 31px 100px 31px 100px;
+}
+
+/* Bloc du logo */
+.logo-block {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 6px;
+  /* flex-shrink: 0; */
+}
+
+/* Logo */
+.logo-square {
+  width: 19px;
+  height: 19px;
+  border-radius: 3.065px;
+  background: var(--vert-logo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blanc-logo);
+  font-family: "Playfair Display";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/* Texte du logo*/
+.logo-text {
+  font-family: "Playfair Display", serif;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: normal;
+  color: var(--vert-logo);
+}
+
+/* styles du menu de navigation */
+header nav {
+  flex: 1;
+}
+
+/* Header Navigation */
+header nav ul {
+  list-style: none; /* Remove bullets */
+  padding: 0;
+  margin: 0;
+  display: flex; /* Display items in-line */
+  justify-content: flex-end; /* Align items to the right */
+  gap: 53px; /* Gap between menu items */
+}
+
+/* Header Navigation liens du menu */
+header nav ul li a {
+  text-decoration: none; /* Remove underlines */
+  color: var(--gris-fonce);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Header Navigation liens du menu au survol */
+header nav ul li a:hover {
+  color: var(--gris-clair);
+}
