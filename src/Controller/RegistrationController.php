@@ -11,12 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        Security $security
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -36,7 +41,18 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_main');
+            // return $this->redirectToRoute('app_main');
+
+            // CONNEXION AUTOMATIQUE IMMEDIATE
+            // Le service s'occupe de créer la session, les cookies et d'authentifier l'objet $user.
+            // On lui passe l'entité du user et le nom de la route de redirection cible.
+            // $user : C'est l'entité fraîchement créée et enregistrée en base de données.
+            // 'form_login' : C'est l'authentificateur défini dans security.yaml sous la clé form_login.
+            //   Cela indique à Symfony quel mécanisme utiliser pour l'enregistrement de la session.
+            // 'main' : C'est le nom du pare-feu (firewall) défini dans security.yaml.
+            // la méthode $security->login() renvoie directement une réponse de redirection
+            // vers la page d'accueil par défaut défini dans le firewall de security.yaml
+            return $security->login($user, 'form_login', 'main');
         }
 
         return $this->render('registration/register.html.twig', [

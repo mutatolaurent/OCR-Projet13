@@ -149,3 +149,10 @@ main {
     font-size: 12px;
     font-weight: 400;
 }
+
+.erreur-item-s14 {
+    color: red;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 10px;
+}
