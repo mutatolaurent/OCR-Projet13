@@ -16,7 +16,8 @@
                 </p>
             </div>
             <div class="hp-sec-1-div-droite">
-                <img src="{{ asset('img/webp_deco/hp-1.webp') }}" alt="" />
+                {# <img src="{{ asset('img/webp_deco/hp-1.webp') }}" alt="" /> #}
+                <img src="{{ asset(image_paths.deco ~ 'hp-1.webp') }}" alt="" />
             </div>
         </section>
 
@@ -28,11 +29,8 @@
             <div class="hp-sec-2-product-cards">
                 {% for product in products %}
                     <article class="card">
-                        <img
-                            src="{{ asset('img/webp_hp/' ~ product.picture) }}"
-                            alt="{{ product.designation }}"
-                        />
-                        <h3>{{ product.designation }}</h3>
+                        <img src="{{ asset(image_paths.homepage ~ product.picture) }}" alt="{{ product.name }}" />
+                        <h3>{{ product.name }}</h3>
                         <p>{{ product.shortDescr }}</p>
                         <h4>{{ product.priceCurrent }}€</h4>
                         <a href="{{ path('app_product', {slug: product.slug}) }}">Voir le produit</a>
@@ -56,14 +54,16 @@
                 </p>
             </div>
             <div class="hp-sec-3-div-droite">
-                <img src="{{ asset('img/webp_deco/hp-2.webp') }}" alt="" />
+                {# <img src="{{ asset('img/webp_deco/hp-2.webp') }}" alt="" /> #}
+                <img src="{{ asset(image_paths.deco ~ 'hp-2.webp') }}" alt="" />
             </div>
         </section>
 
         {# Section Nos valeurs #}
         <section class="hp-sec-4">
             <div class="hp-sec-4-div-gauche">
-                <img src="{{ asset('img/webp_deco/hp-3.webp') }}" alt="" />
+                {# <img src="{{ asset('img/webp_deco/hp-3.webp') }}" alt="" /> #}
+                <img src="{{ asset(image_paths.deco ~ 'hp-3.webp') }}" alt="" />
             </div>
             <div class="hp-sec-4-div-droite">
                 <h2>Nos valeurs</h2>

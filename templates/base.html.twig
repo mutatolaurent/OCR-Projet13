@@ -34,6 +34,7 @@
                         <li><a href="#">Mon compte</a></li>
                         <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
                     {% else %}
+                        <li><a href="{{ path('app_register') }}">Inscription</a></li>
                         <li><a href="{{ path('app_login') }}">Connexion</a></li>
                     {% endif %}
                 </ul>
