@@ -15,7 +15,7 @@ class Basket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'basket', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'basket', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

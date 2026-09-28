@@ -41,6 +41,17 @@
             </nav>
         </header>
 
+
+        {# Affichage des messages flash en popup #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-popup flash-{{ label }}" data-duration="2000">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {# ==================================== #}
+
         {% block body %}{% endblock %}
         
         {# Pied de page #}
@@ -48,4 +59,35 @@
             <p>&copy; GreenGoodies - 2026</p>
         </footer>
     </body>
+    <script>
+        (function() {
+            const initPopups = () => {
+                const popups = document.querySelectorAll('.flash-popup');
+                
+                popups.forEach(popup => {
+                    // Récupère la durée (par défaut 4000ms si absent)
+                    const duration = parseInt(popup.dataset.duration) || 4000;
+
+                    // Lance le compte à rebours
+                    setTimeout(() => {
+                        // Ajoute la classe CSS pour déclencher le fondu
+                        popup.classList.add('fade-out');
+
+                        // Supprime l'élément du DOM après la transition (0.5s)
+                        setTimeout(() => {
+                            popup.remove();
+                        }, 500);
+
+                    }, duration);
+                });
+            };
+
+            // Vérifie si le DOM est déjà chargé ou attend qu'il le soit
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initPopups);
+            } else {
+                initPopups();
+            }
+        })();    
+    </script>
 </html>
