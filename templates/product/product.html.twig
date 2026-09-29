@@ -1,38 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ product.designation }}{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
 
     <main>
         <section class="product-sec">
             <!-- <div class="product-sec-img"> -->
-            <img src="{{ asset('img/webp_fp/' ~ product.picture) }}" alt="" />
+            {# <img src="{{ asset('img/webp_fp/' ~ product.picture) }}" alt="" /> #}
+            <img src="{{ asset(image_paths.product ~ product.picture) }}" alt="{{ product.name }}" />
             <!-- </div> -->
             <div class="product-descr">
-                <h1>{{ product.designation }}</h1>
+                <h1>{{ product.name }}</h1>
                 <h2>{{ product.priceCurrent }}€</h2>
                 <h3>Description</h3>
                 <p>{{ product.longDescr }}</p>
-                <!-- <a href="#">Ajouter au panier</a> -->
-                <form action="#" method="POST">
-                    <div class="champ-formulaire-select">
-                        <label for="quantite">Quantité :</label>
-                        <select name="quantite" id="quantite">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
-                    <button class="btn-form">Ajouter au panier</button>
-                </form>
+
+                {% if app.user %}
+                    <form action="{{ path('basket_add', {'id': product.id}) }}" method="POST">
+                        <div class="champ-formulaire-inline">  
+                            <label for="quantite">Quantité : </label>
+                            {# Initialisation de la quantité avec la valeur en BD si elle existe, sinon 1 #}
+                            <input type="number" name="quantite" id="quantite" value="{{ basketProduct ? basketProduct.quantity : 1 }}" min="0" max="30"/>
+                            {% if basketProduct %}
+                                <span>Déjà dans votre panier !</span>
+                            {% endif %}
+                        </div>
+                        <button class="btn-form" type="submit">
+                            {{ basketProduct ? 'Modifier la quantité' : 'Ajouter au panier' }}
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Se connecter pour ajouter au panier</a>
+                {% endif %}
             </div>
         </section>
     </main>

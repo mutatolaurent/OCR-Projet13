@@ -95,23 +95,31 @@ main {
     font-family: Inter;
 }
 
-.champ-formulaire-select {
+.champ-formulaire-inline {
     display: flex;
     gap: 10px;
     margin-top: 30px;
     align-items: center;
 }
 
-.champ-formulaire-select label {
+.champ-formulaire-inline label {
     color: var(--gris-fonce);
     font-size: 16px;
     font-weight: 400;
 }
 
-.champ-formulaire-select select {
+.champ-formulaire-inline input {
     height: 30px;
+    width: 50px;
     border: 1px solid var(--gris-clair);
     font-family: Inter;
+    padding-left: 10px;
+}
+
+.champ-formulaire-inline span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gris-clair);
 }
 
 .btn-form {
@@ -155,4 +163,49 @@ main {
     font-size: 14px;
     font-weight: 500;
     margin-top: 10px;
+}
+
+/* Style de la popup flash centrée */
+.flash-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px 50px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    font-size: 20px;
+    font-family: inherit;
+    text-align: center;
+    transition:
+        opacity 0.5s ease-in-out,
+        transform 0.5s ease-in-out;
+    opacity: 1;
+}
+
+/* Couleurs selon le type de message flash */
+.flash-popup.flash-success {
+    background-color: #2ecc71; /* Vert pour le succès */
+}
+
+.flash-popup.flash-error,
+.flash-popup.flash-danger {
+    background-color: #e74c3c; /* Rouge pour les erreurs */
+}
+
+.flash-popup.flash-warning {
+    background-color: #f1c40f; /* Jaune pour les avertissements */
+    color: #333;
+}
+
+/* Classe déclenchée par le JS pour l'effet de disparition */
+.flash-popup.fade-out {
+    opacity: 0;
+    transform: translate(
+        -50%,
+        -60%
+    ); /* Légère translation vers le haut au fade-out */
 }
