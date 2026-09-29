@@ -21,7 +21,7 @@
                         <div class="champ-formulaire-inline">  
                             <label for="quantite">Quantité : </label>
                             {# Initialisation de la quantité avec la valeur en BD si elle existe, sinon 1 #}
-                            <input type="number" name="quantite" id="quantite" value="{{ basketProduct ? basketProduct.quantity : 1 }}" min="0" />
+                            <input type="number" name="quantite" id="quantite" value="{{ basketProduct ? basketProduct.quantity : 1 }}" min="0" max="30"/>
                             {% if basketProduct %}
                                 <span>Déjà dans votre panier !</span>
                             {% endif %}

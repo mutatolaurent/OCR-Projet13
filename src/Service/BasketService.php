@@ -70,4 +70,53 @@ class BasketService
             $this->entityManager->flush();
         }
     }
+
+    /**
+     * Retourne les détails du panier d'un utilisateur (items avec sous-totaux et total général)
+     */
+    public function getBasketDetails(User $user): array
+    {
+        $basket = $user->getBasket();
+        $basketItems = [];
+        $totalGeneral = 0.0;
+
+        if ($basket) {
+            foreach ($basket->getBasketProducts() as $basketProduct) {
+                $product = $basketProduct->getProduct();
+                $quantity = $basketProduct->getQuantity();
+
+                $subTotal = (float) $product->getPriceCurrent() * $quantity;
+                $totalGeneral += $subTotal;
+
+                $basketItems[] = [
+                    'product' => $product,
+                    'quantity' => $quantity,
+                    'subTotal' => $subTotal,
+                ];
+            }
+        }
+
+        return [
+            'basketItems' => $basketItems,
+            'totalGeneral' => $totalGeneral,
+        ];
+    }
+
+    /**
+     * Retourne le nombre total d'articles dans le panier de l'utilisateur
+     */
+    public function getTotalQuantity(User $user): int
+    {
+        $basket = $user->getBasket();
+        if (!$basket) {
+            return 0;
+        }
+
+        $totalQuantity = 0;
+        foreach ($basket->getBasketProducts() as $basketProduct) {
+            $totalQuantity += $basketProduct->getQuantity();
+        }
+
+        return $totalQuantity;
+    }
 }

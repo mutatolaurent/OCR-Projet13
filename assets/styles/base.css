@@ -171,13 +171,13 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 20px 30px;
+    padding: 40px 50px;
     background-color: #333;
     color: #fff;
     border-radius: 8px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     z-index: 9999;
-    font-size: 16px;
+    font-size: 20px;
     font-family: inherit;
     text-align: center;
     transition:

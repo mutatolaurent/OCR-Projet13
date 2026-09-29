@@ -30,7 +30,7 @@
                 <ul>
                     <li><a href="{{ path('app_main') }}">Nos produits</a></li>
                     {% if app.user %}
-                        <li><a href="#">Mon panier</a></li>
+                        <li><a href="{{ path('app_basket') }}">Mon panier<span class="badge-count">({{ basket_count() }})</span></a></li>
                         <li><a href="#">Mon compte</a></li>
                         <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
                     {% else %}

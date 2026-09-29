@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+    <main>
+        <section class="panier-sec">
+            <h1>Mon panier</h1>
+
+            {% if basketItems is empty %}
+                <div class="panier-list">
+                    <p>Votre panier est actuellement vide.</p>
+                    <a href="{{ path('app_main') }}" class="btn-form">Continuer mes achats</a>
+                </div>
+                
+            {% else %}
+
+                <div class="panier-cta">
+                    <a class="panier-cta-remove" href="#">x Vider le panier</a>
+                </div>
+                <div class="panier-list">
+                    {% for item in basketItems %}
+                        <a class="panier-link" href="{{ path('app_product', {slug: item.product.slug}) }}">
+                            <article>
+                                <img
+                                    class="panier-product-picture"
+                                    src="{{ asset(image_paths.basket ~ item.product.picture) }}"
+                                    alt="{{ item.product.name }}"
+                                />
+                                <div class="panier-product-descr">
+                                    <h2>{{ item.product.name }}</h2>
+                                    <p>Quantité: {{ item.quantity }}</p>
+                                    <p>Prix unitaire: {{ item.product.priceCurrent }}</p>
+                                    <h3>{{ item.subTotal|number_format(2, '.', ' ') }}€</h3>
+                                </div>
+                            </article>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="panier-total">
+                    <div class="panier-price">
+                        <p>Total panier :</p>
+                        <h3>{{ totalGeneral|number_format(2, '.', ' ') }}€</h3>
+                    </div>
+                    <p>Frais de livraison : Offert</p>
+                </div>
+                <a class="btn-valid marge-panier" href="#"
+                    >Valider la commande</a
+                >
+            {% endif %}
+        </section>
+    </main>
+
+{% endblock %}
