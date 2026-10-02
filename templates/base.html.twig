@@ -13,7 +13,7 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
+    <body data-turbo-prefetch="false">
         <header>
             <a href="{{ path('app_main') }}" class="logo-block">
                 <div class="logo-square">G</div>

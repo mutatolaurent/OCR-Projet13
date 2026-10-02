@@ -17,6 +17,9 @@ class SalesOrderProduct
     #[ORM\Column]
     private ?int $quantity = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2)]
     private ?string $historicalPrice = null;
 
@@ -46,6 +49,18 @@ class SalesOrderProduct
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
@@ -106,7 +121,6 @@ class SalesOrderProduct
     public function setHistoricalIdProduct(?int $historicalIdProduct): static
     {
         $this->historicalIdProduct = $historicalIdProduct;
-
         return $this;
     }
 }

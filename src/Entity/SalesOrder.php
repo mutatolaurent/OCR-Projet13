@@ -16,27 +16,12 @@ class SalesOrder
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $designation = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2)]
-    private ?string $priceHistorical = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $sku = null;
-
-    #[ORM\Column(length: 13, nullable: true)]
-    private ?string $ean13 = null;
+    private ?string $totalPriceHistorical = null;
 
     #[ORM\ManyToOne(inversedBy: 'SalesOrders')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
-    /**
-     * @var Collection<int, SalesOrderProduct>
-     */
-    #[ORM\OneToMany(targetEntity: SalesOrderProduct::class, mappedBy: 'salesOrder')]
-    private Collection $product;
 
     /**
      * @var Collection<int, SalesOrderProduct>
@@ -49,7 +34,6 @@ class SalesOrder
 
     public function __construct()
     {
-        $this->product = new ArrayCollection();
         $this->salesOrderProducts = new ArrayCollection();
     }
 
@@ -58,53 +42,18 @@ class SalesOrder
         return $this->id;
     }
 
-    public function getDesignation(): ?string
+    public function getTotalPriceHistorical(): ?string
     {
-        return $this->designation;
+        return $this->totalPriceHistorical;
     }
 
-    public function setDesignation(string $designation): static
+    public function setTotalPriceHistorical(string $totalPriceHistorical): static
     {
-        $this->designation = $designation;
+        $this->totalPriceHistorical = $totalPriceHistorical;
 
         return $this;
     }
 
-    public function getPriceHistorical(): ?string
-    {
-        return $this->priceHistorical;
-    }
-
-    public function setPriceHistorical(string $priceHistorical): static
-    {
-        $this->priceHistorical = $priceHistorical;
-
-        return $this;
-    }
-
-    public function getSku(): ?string
-    {
-        return $this->sku;
-    }
-
-    public function setSku(string $sku): static
-    {
-        $this->sku = $sku;
-
-        return $this;
-    }
-
-    public function getEan13(): ?string
-    {
-        return $this->ean13;
-    }
-
-    public function setEan13(?string $ean13): static
-    {
-        $this->ean13 = $ean13;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -114,36 +63,6 @@ class SalesOrder
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, SalesOrderProduct>
-     */
-    public function getProduct(): Collection
-    {
-        return $this->product;
-    }
-
-    public function addProduct(SalesOrderProduct $product): static
-    {
-        if (!$this->product->contains($product)) {
-            $this->product->add($product);
-            $product->setSalesOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(SalesOrderProduct $product): static
-    {
-        if ($this->product->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getSalesOrder() === $this) {
-                $product->setSalesOrder(null);
-            }
-        }
 
         return $this;
     }
