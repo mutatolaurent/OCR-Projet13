@@ -17,7 +17,7 @@
                 <p>{{ product.longDescr }}</p>
 
                 {% if app.user %}
-                    <form action="{{ path('basket_add', {'id': product.id}) }}" method="POST">
+                    <form action="{{ path('app_basket_add', {'id': product.id}) }}" method="POST">
                         <div class="champ-formulaire-inline">  
                             <label for="quantite">Quantité : </label>
                             {# Initialisation de la quantité avec la valeur en BD si elle existe, sinon 1 #}

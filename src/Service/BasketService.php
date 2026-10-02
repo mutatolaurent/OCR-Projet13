@@ -119,4 +119,17 @@ class BasketService
 
         return $totalQuantity;
     }
+
+    /**
+     * Supprime le panier d'un utilisateur.
+     */
+    public function clearBasket(User $user): void
+    {
+        $basket = $user->getBasket();
+        if ($basket) {
+            // Supprime le panier (grâce à orphanRemoval: true sur basketProducts, les lignes associées seront supprimées automatiquement)
+            $this->entityManager->remove($basket);
+            $this->entityManager->flush();
+        }
+    }
 }

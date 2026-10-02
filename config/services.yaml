@@ -12,6 +12,7 @@ parameters:
         product: "img/webp_fp/"
         basket: "img/webp_basket/"
         deco: "img/webp_deco/"
+    basket_max_quantity: 12
 
 services:
     # default configuration for services in *this* file

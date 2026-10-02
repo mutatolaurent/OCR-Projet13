@@ -1,0 +1,32 @@
+{# templates/bundles/TwigBundle/Exception/error.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur {{ status_code|default('500') }}{% endblock %}
+
+{% block body %}
+    <main>
+        <section class="error-sec" style="text-align: center; padding: 50px;">
+            <h1>Oups ! Une erreur s'est produite.</h1>
+            <p>Nous sommes désolés, un problème technique est survenu sur notre application.</p>
+            
+            {# Affichage conditionnel en environnement de développement #}
+            {% if app.environment == 'dev' %}
+                <div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 20px; margin: 30px auto; max-width: 600px; border-radius: 6px; text-align: left; font-family: monospace;">
+                    <h3 style="margin-top: 0; border-bottom: 1px solid #f5c6cb; padding-bottom: 8px;">🛠️ Mode Développement - Debug</h3>
+                    <p><strong>Code d'erreur :</strong> {{ status_code|default('Inconnu') }}</p>
+                    
+                    {% if exception is defined and exception %}
+                        <p><strong>Message :</strong> {{ exception.message }}</p>
+                        <p><strong>Fichier :</strong> {{ exception.file }}:{{ exception.line }}</p>
+                    {% else %}
+                        <p><strong>Message :</strong> {{ status_text|default('Erreur interne du serveur') }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div style="margin-top: 60px;">
+                <a href="{{ path('app_main') }}" class="btn-form">Retourner à l'accueil</a>
+            </div>
+        </section>
+    </main>
+{% endblock %}

@@ -1,6 +1,26 @@
 monolog:
     channels: # To see all channels, run bin/console debug:autowiring logger
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
+        # - ecommerce # Custom channel for application-specific logs
+        - web # Canal pour les erreurs Web
+        - api # Canal pour les erreurs API
+    # Nouveau gestionnaire pour isoler les erreurs dans un fichier journalier (dev et prod)
+    handlers:
+        # Gestionnaire pour les erreurs WEB
+        web_errors:
+            type: rotating_file
+            path: "%kernel.logs_dir%/web_error.log"
+            level: error
+            max_files: 30
+            channels: ["web"]
+
+        # Gestionnaire pour les erreurs API
+        api_errors:
+            type: rotating_file
+            path: "%kernel.logs_dir%/api_error.log"
+            level: error
+            max_files: 30
+            channels: ["api"]
 
 when@dev:
     monolog:

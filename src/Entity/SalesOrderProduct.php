@@ -20,13 +20,18 @@ class SalesOrderProduct
     #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2)]
     private ?string $historicalPrice = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $sku = null;
+
+    #[ORM\Column(length: 13, nullable: true)]
+    private ?string $ean13 = null;
+
     #[ORM\ManyToOne(inversedBy: 'salesOrderProducts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?SalesOrder $salesOrder = null;
 
-    #[ORM\ManyToOne(inversedBy: 'salesOrderProducts')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $historicalIdProduct = null;
 
     public function getId(): ?int
     {
@@ -57,6 +62,30 @@ class SalesOrderProduct
         return $this;
     }
 
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    public function setSku(string $sku): static
+    {
+        $this->sku = $sku;
+
+        return $this;
+    }
+
+    public function getEan13(): ?string
+    {
+        return $this->ean13;
+    }
+
+    public function setEan13(?string $ean13): static
+    {
+        $this->ean13 = $ean13;
+
+        return $this;
+    }
+
     public function getSalesOrder(): ?SalesOrder
     {
         return $this->salesOrder;
@@ -69,16 +98,15 @@ class SalesOrderProduct
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getHistoricalIdProduct(): ?int
     {
-        return $this->product;
+        return $this->historicalIdProduct;
     }
 
-    public function setProduct(?Product $product): static
+    public function setHistoricalIdProduct(?int $historicalIdProduct): static
     {
-        $this->product = $product;
+        $this->historicalIdProduct = $historicalIdProduct;
 
         return $this;
     }
-
 }

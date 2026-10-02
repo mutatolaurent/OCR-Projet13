@@ -16,7 +16,7 @@
             {% else %}
 
                 <div class="panier-cta">
-                    <a class="panier-cta-remove" href="#">x Vider le panier</a>
+                    <a class="panier-cta-remove" href="{{ path('app_basket_clear') }}">x Vider le panier</a>
                 </div>
                 <div class="panier-list">
                     {% for item in basketItems %}
