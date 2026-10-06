@@ -31,6 +31,6 @@ final class OrderController extends AbstractController
         // Succès
         $this->addFlash('success', 'Votre commande CMD-' . $order->getId() . ' a été créée avec succès !');
 
-        return $this->redirectToRoute('app_main');
+        return $this->redirectToRoute('app_account');
     }
 }

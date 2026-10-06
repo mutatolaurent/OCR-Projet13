@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!{% endblock %}
+
+{% block body %}
+    <main>
+        <section class="moncpte-sec">
+            <h1>Mon compte</h1>
+
+            {% if orders is empty %}
+                <div>
+                    <p>Aucune commande pour le moment!</p>
+                    <a href="{{ path('app_main') }}" class="btn-form">Continuer mes achats</a>
+                </div>
+                
+            {% else %}
+
+                <div class="mes-cdes">
+                    <h2>Mes commandes</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Date</th>
+                                <th>Prix</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>CMD-{{ order.id|format('%04d') }}</td>
+                                <td>{{ order.createdAt|date('d/m/Y') }}</td>
+                                <td>{{ order.totalPriceHistorical|number_format(2, ',', ' ') }}€</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% endif %}
+
+            <div class="moncpte-cta">
+                <h2>Mon accès API</h2>
+                <a class="btn-valid marge-moncpte" href="{{ path('app_account_toggle_api_access') }}">
+                    {% if app.user.accesAPI %}
+                        Désactiver mon accès API
+                    {% else %}
+                        Activer mon accès API
+                    {% endif %}
+                </a>
+            </div>
+
+            <div data-controller="modal">
+
+                <div class="moncpte-cta">
+                    {# On cible ce formulaire avec data-modal-target="form" #}
+                    <form data-modal-target="form" action="{{ path('app_account_delete') }}" method="POST">
+                        {# Au clic, on appelle la méthode open() du contrôleur #}
+                        <button type="button" data-action="click->modal#open" class="btn-form sans-marge-moncpte" >
+                            Supprimer mon compte
+                        </button>
+                    </form>
+                </div>
+
+                {# On cible la modale avec dialog et on gère le clic extérieur avec closeOutside #}
+                <div data-modal-target="dialog" data-action="click->modal#closeOutside" class="custom-modal">
+                    <div class="custom-modal-content">
+                        <h2>Supprimer mon compte</h2>
+                        <p>Êtes-vous sûr de vouloir supprimer votre compte ?<br>Cette action est irréversible.</p>
+                        <div class="custom-modal-actions">
+                            {# Bouton Annuler : appelle close() #}
+                            <button type="button" data-action="click->modal#close" class="btn-modal-cancel">Annuler</button>
+                            
+                            {# Bouton Confirmer : cible confirmButton et appelle confirm() #}
+                            <button type="button" data-modal-target="confirmButton" data-action="click->modal#confirm" class="btn-modal-confirm">
+                                Oui, supprimer mon compte
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+{% endblock %}

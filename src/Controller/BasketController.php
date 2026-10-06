@@ -82,7 +82,7 @@ class BasketController extends AbstractController
      * @param BasketService $basketService Le service pour gérer la logique du panier
      * @return Response La réponse HTTP après le vidage du panier
      */
-    #[Route('/basket/clear', name: 'app_basket_clear', methods: ['GET'])]
+    #[Route('/basket/clear', name: 'app_basket_clear', methods: ['POST'])]
     public function clear(BasketService $basketService): Response
     {
         /** @var \App\Entity\User $user */

@@ -22,13 +22,13 @@ class Basket
     /**
      * @var Collection<int, BasketProduct>
      */
-    #[ORM\OneToMany(targetEntity: BasketProduct::class, mappedBy: 'basket')]
-    private Collection $product;
+    // #[ORM\OneToMany(targetEntity: BasketProduct::class, mappedBy: 'basket')]
+    // private Collection $product;
 
     /**
      * @var Collection<int, BasketProduct>
      */
-    #[ORM\OneToMany(targetEntity: BasketProduct::class, mappedBy: 'basket', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: BasketProduct::class, mappedBy: 'basket', orphanRemoval: true, cascade: ['remove'])]
     private Collection $basketProducts;
 
     #[ORM\Column]
@@ -39,7 +39,7 @@ class Basket
 
     public function __construct()
     {
-        $this->product = new ArrayCollection();
+        // $this->product = new ArrayCollection();
         $this->basketProducts = new ArrayCollection();
     }
 
@@ -63,32 +63,32 @@ class Basket
     /**
      * @return Collection<int, BasketProduct>
      */
-    public function getProduct(): Collection
-    {
-        return $this->product;
-    }
+    // public function getProduct(): Collection
+    // {
+    //     return $this->product;
+    // }
 
-    public function addProduct(BasketProduct $product): static
-    {
-        if (!$this->product->contains($product)) {
-            $this->product->add($product);
-            $product->setBasket($this);
-        }
+    // public function addProduct(BasketProduct $product): static
+    // {
+    //     if (!$this->product->contains($product)) {
+    //         $this->product->add($product);
+    //         $product->setBasket($this);
+    //     }
 
-        return $this;
-    }
+        //return $this;
+    //}
 
-    public function removeProduct(BasketProduct $product): static
-    {
-        if ($this->product->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getBasket() === $this) {
-                $product->setBasket(null);
-            }
-        }
+    // public function removeProduct(BasketProduct $product): static
+    // {
+    //     if ($this->product->removeElement($product)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($product->getBasket() === $this) {
+    //             $product->setBasket(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, BasketProduct>

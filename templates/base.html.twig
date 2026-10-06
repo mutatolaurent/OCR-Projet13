@@ -25,7 +25,7 @@
                     <li><a href="{{ path('app_main') }}">Nos produits</a></li>
                     {% if app.user %}
                         <li><a href="{{ path('app_basket') }}">Mon panier<span class="badge-count">({{ basket_count() }})</span></a></li>
-                        <li><a href="#">Mon compte</a></li>
+                        <li><a href="{{ path('app_account') }}">Mon compte</a></li>
                         <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
                     {% else %}
                         <li><a href="{{ path('app_register') }}">Inscription</a></li>
@@ -38,7 +38,10 @@
         {# Affichage des messages flash en popup #}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
-                <div class="flash-popup flash-{{ label }}" data-duration="2000">
+                {# On attache le contrôleur "flash" et on lui passe la valeur 2000 #}
+                <div class="flash-popup flash-{{ label }}" 
+                    data-controller="flash" 
+                    data-flash-duration-value="2000">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -52,35 +55,4 @@
             <p>&copy; GreenGoodies - 2026</p>
         </footer>
     </body>
-    <script>
-        (function() {
-            const initPopups = () => {
-                const popups = document.querySelectorAll('.flash-popup');
-                
-                popups.forEach(popup => {
-                    // Récupère la durée (par défaut 4000ms si absent)
-                    const duration = parseInt(popup.dataset.duration) || 4000;
-
-                    // Lance le compte à rebours
-                    setTimeout(() => {
-                        // Ajoute la classe CSS pour déclencher le fondu
-                        popup.classList.add('fade-out');
-
-                        // Supprime l'élément du DOM après la transition (0.5s)
-                        setTimeout(() => {
-                            popup.remove();
-                        }, 500);
-
-                    }, duration);
-                });
-            };
-
-            // Vérifie si le DOM est déjà chargé ou attend qu'il le soit
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initPopups);
-            } else {
-                initPopups();
-            }
-        })();    
-    </script>
 </html>

@@ -16,9 +16,10 @@
     --max-width: 1440px;
     --blanc-logo: #ffffffe6;
     --vert-clair: #e8f0e3;
-    --saumon: #ebe3d3;
-    --noir: #000;
+    --saumon: #f7f1ec;
+    --brun-clair: #ebe3d3;
     --gris-bouton: #565656;
+    --noir: black;
 }
 
 /* Chargement en local de la Font Inter */

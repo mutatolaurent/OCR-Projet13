@@ -15,9 +15,37 @@
                 
             {% else %}
 
-                <div class="panier-cta">
-                    <a class="panier-cta-remove" href="{{ path('app_basket_clear') }}">x Vider le panier</a>
+                <div data-controller="modal">
+
+                    <div class="panier-cta">
+                        {# On cible ce formulaire avec data-modal-target="form" #}
+                        <form data-modal-target="form" action="{{ path('app_basket_clear') }}" method="POST">
+                            {# Au clic, on appelle la méthode open() du contrôleur #}
+                            <button type="button" data-action="click->modal#open" class="panier-cta-remove" style="background: none; border: none; cursor: pointer; font: inherit;">
+                                x Vider le panier
+                            </button>
+                        </form>
+                    </div>
+
+                    {# On cible la modale avec dialog et on gère le clic extérieur avec closeOutside #}
+                    <div data-modal-target="dialog" data-action="click->modal#closeOutside" class="custom-modal">
+                        <div class="custom-modal-content">
+                            <h2>Vider le panier</h2>
+                            <p>Êtes-vous sûr de vouloir vider entièrement votre panier ?<br>Cette action est irréversible.</p>
+                            <div class="custom-modal-actions">
+                                {# Bouton Annuler : appelle close() #}
+                                <button type="button" data-action="click->modal#close" class="btn-modal-cancel">Annuler</button>
+                                
+                                {# Bouton Confirmer : cible confirmButton et appelle confirm() #}
+                                <button type="button" data-modal-target="confirmButton" data-action="click->modal#confirm" class="btn-modal-confirm">
+                                    Oui, vider le panier
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
                 <div class="panier-list">
                     {% for item in basketItems %}
                         <a class="panier-link" href="{{ path('app_product', {slug: item.product.slug}) }}">
