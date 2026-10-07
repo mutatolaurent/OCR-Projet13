@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SalesOrderProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SalesOrderProductRepository::class)]
 class SalesOrderProduct
@@ -12,21 +13,27 @@ class SalesOrderProduct
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['order:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['order:read'])]
     private ?int $quantity = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['order:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2)]
+    #[Groups(['order:read'])]
     private ?string $historicalPrice = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['order:read'])]
     private ?string $sku = null;
 
     #[ORM\Column(length: 13, nullable: true)]
+    #[Groups(['order:read'])]
     private ?string $ean13 = null;
 
     #[ORM\ManyToOne(inversedBy: 'salesOrderProducts')]
@@ -34,6 +41,7 @@ class SalesOrderProduct
     private ?SalesOrder $salesOrder = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['order:read'])]
     private ?int $historicalIdProduct = null;
 
     public function getId(): ?int

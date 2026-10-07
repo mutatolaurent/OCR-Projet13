@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SalesOrderRepository::class)]
 class SalesOrder
@@ -14,9 +15,11 @@ class SalesOrder
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['order:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2)]
+    #[Groups(['order:read'])]
     private ?string $totalPriceHistorical = null;
 
     #[ORM\ManyToOne(inversedBy: 'SalesOrders')]
@@ -27,9 +30,11 @@ class SalesOrder
      * @var Collection<int, SalesOrderProduct>
      */
     #[ORM\OneToMany(targetEntity: SalesOrderProduct::class, mappedBy: 'salesOrder', orphanRemoval: true)]
+    #[Groups(['order:read'])]
     private Collection $salesOrderProducts;
 
     #[ORM\Column]
+    #[Groups(['order:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
