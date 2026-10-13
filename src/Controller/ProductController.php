@@ -17,6 +17,8 @@ use App\Entity\User;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * Ce contrôleur est responsable de la gestion des produits.
@@ -24,6 +26,12 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  */
 final class ProductController extends AbstractController
 {
+    public function __construct(
+        private string $apiCacheTag,
+        private int $apiCacheTtl
+    ) {
+    }
+
     /**
      * Affiche la fiche produit en utilisant l'ID du produit.
      *
@@ -89,8 +97,13 @@ final class ProductController extends AbstractController
      * @return JsonResponse La réponse JSON contenant la liste des produits
      */
     #[Route('/api/products', name: 'api_product_list', methods: ['GET'])]
-    public function getProductList(ProductRepository $productRepository, SerializerInterface $serializer, RequestStack $requestStack, #[Autowire(service: 'monolog.logger.api')] LoggerInterface $apiLogger): JsonResponse
-    {
+    public function getProductList(
+        ProductRepository $productRepository,
+        SerializerInterface $serializer,
+        RequestStack $requestStack,
+        #[Autowire(service: 'monolog.logger.api')] LoggerInterface $apiLogger,
+        TagAwareCacheInterface $cachePool
+    ): JsonResponse {
 
         /** @var User|null $user */
         $user = $this->getUser();
@@ -117,30 +130,67 @@ final class ProductController extends AbstractController
             ], JsonResponse::HTTP_FORBIDDEN); // Statut 403 Forbidden
         }
 
-        // Récupération du schéma et de l'hôte (ex: http://localhost ou https://example.com)
-        $schemeAndHost = $request->getSchemeAndHttpHost();
+        // Générer une clé de cache unique pour la liste des produits
+        $idCache = "getAllProducts";
 
-        // Récupération du chemin de l'image depuis les paramètres
-        $imagePathPrefix = $this->getParameter('image_paths_public')['product'];
+        // Vérifier si la réponse est déjà en cache
+        $isHit = true;
 
-        // Récupération de la liste des produits depuis le repository
-        $productList = $productRepository->findAll();
+        // Récupération de la liste des produits depuis le cache ou génération si non présent
+        $jsonProductList = $cachePool->get($idCache, function (ItemInterface $item) use ($productRepository, $serializer, $request, &$isHit, $apiLogger) {
 
-        foreach ($productList as $product) {
+            $start = microtime(true);
 
-            // Construction de l'URL complète de l'image
-            $relativePathToAsset = $imagePathPrefix . $product->getPicture();
-            $fullImageUrl = $schemeAndHost . $relativePathToAsset; // Construction de l'URL absolue complète
+            // Indique que la réponse n'était pas en cache
+            $isHit = false;
 
-            // Mettre à jour l'attribut 'picture' de l'entité Product avec l'URL complète
-            $product->setPicture($fullImageUrl);
-        }
+            // Tag pour l'invalidation du cache
+            $item->tag($this->apiCacheTag);
 
-        // Sérialisation de la liste des produits en JSON
-        $jsonProductList = $serializer->serialize($productList, 'json', ['groups' => 'product:read']);
+            // Définir la durée de vie du cache
+            $item->expiresAfter($this->apiCacheTtl);
+
+            // Récupération du schéma et de l'hôte (ex: http://localhost ou https://example.com)
+            $schemeAndHost = $request->getSchemeAndHttpHost();
+
+            // Récupération du chemin de l'image depuis les paramètres
+            $imagePathPrefix = $this->getParameter('image_paths_public')['product'];
+
+            // Récupération de la liste des produits depuis le repository
+            $productList = $productRepository->findAll();
+
+            foreach ($productList as $product) {
+
+                // Construction de l'URL complète de l'image
+                $relativePathToAsset = $imagePathPrefix . $product->getPicture();
+                $fullImageUrl = $schemeAndHost . $relativePathToAsset; // Construction de l'URL absolue complète
+
+                // Mettre à jour l'attribut 'picture' de l'entité Product avec l'URL complète
+                $product->setPicture($fullImageUrl);
+            }
+
+            $duration = (microtime(true) - $start) * 1000;
+            $apiLogger->error("Temps d'exécution : {$duration}ms");
+
+            // Sérialisation de la liste des produits en JSON
+            return $serializer->serialize($productList, 'json', ['groups' => 'product:read']);
+
+        });
 
         // Retourne la liste des produits sous forme de réponse JSON
-        return new JsonResponse($jsonProductList, JsonResponse::HTTP_OK, [], true);
+        $response = new JsonResponse($jsonProductList, JsonResponse::HTTP_OK, [], true);
+
+        // Ajoute un en-tête personnalisé pour indiquer si la réponse provient du cache ou non
+        $response->headers->set('X-Cache', $isHit ? 'HIT' : 'MISS');
+
+        // Directives Cache-Control pour LE CLIENT
+        $response->setCache([
+            'max_age'       => $this->apiCacheTtl, // Le client peut cacher la réponse pendant $apiCacheTtl secondes
+            's_maxage'      => $this->apiCacheTtl, // Les proxys/CDN peuvent aussi cacher la réponse pendant $apiCacheTtl secondes
+            'public'        => true, // Permet la mise en cache par tout le monde
+        ]);
+
+        return $response;
 
     }
 }

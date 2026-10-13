@@ -15,12 +15,17 @@ parameters:
     basket_max_quantity: 12
     image_paths_public:
         product: "/images/products/webp_fp/"
+    app.api_cache_ttl: 30 # Durée de vie du cache des réponses API (en secondes)
+    app.api_cache_tag: "products_cache" # Tag pour l'invalidation du cache des réponses API
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind: # Bind parameters to services
+            $apiCacheTtl: "%app.api_cache_ttl%"
+            $apiCacheTag: "%app.api_cache_tag%"
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
