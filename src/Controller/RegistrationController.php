@@ -39,10 +39,6 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
-
-            // return $this->redirectToRoute('app_main');
-
             // CONNEXION AUTOMATIQUE IMMEDIATE
             // Le service s'occupe de créer la session, les cookies et d'authentifier l'objet $user.
             // On lui passe l'entité du user et le nom de la route de redirection cible.

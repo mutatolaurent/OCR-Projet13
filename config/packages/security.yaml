@@ -19,13 +19,14 @@ security:
 
         # 1. Firewall pour générer le token JWT (via login JSON)
         login:
-            pattern: ^/api/auth
+            pattern: ^/api/login
             stateless: true
-            user_checker: App\Security\ApiUserChecker
             json_login:
-                check_path: /api/auth
+                check_path: /api/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                # failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                failure_handler: App\Security\ApiAuthenticationFailureHandler # <--- gestionnaire personnalisé
+            user_checker: App\Security\ApiUserChecker
 
         # 2. Firewall pour sécuriser les routes de l'API avec JWT
         api:
@@ -57,7 +58,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/api/auth, roles: PUBLIC_ACCESS }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/doc, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 

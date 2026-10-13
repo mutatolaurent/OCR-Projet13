@@ -1,9 +1,10 @@
+# Projet réalisé dans le cadre de la formation OpenclassRooms Conception et développement avec Symfony PHP
+
 # 🛒 E-Commerce API & Backend - GreenGoodies (Symfony 7.4)
 
 ![Symfony](https://img.shields.io/badge/Symfony-7.4-black?style=for-the-badge&logo=symfony)
 ![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php)
 ![Doctrine](https://img.shields.io/badge/Doctrine-ORM-orange?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-blue.style=for-the-badge)
 
 Une solution e-commerce backend moderne et écoresponsable basée sur **Symfony 7.4**, offrant une gestion fluide des paniers, de la passation de commandes (`SalesOrder`) et une **API REST sécurisée** permettant la consultation des produits et de l'historique d'achats des clients.
 
@@ -18,6 +19,8 @@ Une solution e-commerce backend moderne et écoresponsable basée sur **Symfony 
     - [Modèle de Données & Entités](#modèle-de-données--entités)
     - [Optimisation des Performances (Problème N+1)](#optimisation-des-performances-problème-n1)
 - [🔒 Sécurité & Contrôle d'Accès API](#-sécurité--contrôle-daccès-api)
+    - [Authentification Web](#authentification-web)
+    - [Authentification API](#authentification-api)
     - [Habilitations API (`isAccesAPI`)](#habilitations-api-isaccesapi)
     - [Sérialisation & Protection contre les Fuites de Données](#sérialisation--protection-contre-les-fuites-de-données)
 - [🚨 Gestion des Erreurs & Codes HTTP](#-gestion-des-erreurs--codes-http)
@@ -31,7 +34,7 @@ Une solution e-commerce backend moderne et écoresponsable basée sur **Symfony 
 
 ## 🎯 Objectifs du Projet
 
-**GreenGoodies** est une boutique physique écoresponsable implantée à Lyon. L'objectif principal de ce projet est de développer la plateforme e-commerce et le backend API sous **Symfony 7.4** afin d'étendre son activité et de recevoir/traiter des commandes sur l'ensemble du territoire français.
+**GreenGoodies** est une boutique physique écoresponsable fictive. L'objectif principal de ce projet est de développer la plateforme e-commerce et le backend API sous **Symfony 7.4** afin d'étendre son activité et de recevoir/traiter des commandes sur l'ensemble du territoire français.
 
 ### Vision & Engagement Écoresponsable (Green Code)
 
@@ -129,6 +132,91 @@ public function findByUserWithProducts(User $user): array
 
 ## 🔒 Sécurité & Contrôle d'Accès API
 
+### Authentification Web
+
+La partie Web utilise l'authentification par formulaire intégrée à **Symfony Security**, distincte de l'authentification JWT de l'API. Elle est gérée par le pare-feu `main` dans `config/packages/security.yaml`, qui est stateful : après connexion, Symfony conserve l'identité authentifiée dans la session Web et le navigateur transmet le cookie de session lors des requêtes suivantes.
+
+#### Connexion
+
+La page `GET /login` est rendue par `SecurityController` avec le template `templates/security/login.html.twig`. Le formulaire envoie l'adresse e-mail dans `_username` et le mot de passe dans `_password` vers la même route. Il comprend également un jeton CSRF (`authenticate`) afin de protéger la soumission contre les requêtes forgées.
+
+À la soumission, l'authentificateur `form_login` du pare-feu `main` délègue la vérification à Symfony :
+
+1. Le fournisseur `app_user_provider` recherche l'entité `User` par adresse e-mail.
+2. Symfony compare le mot de passe soumis avec le hash enregistré, en utilisant le hasher configuré avec `auto`. Le mot de passe en clair n'est pas stocké.
+3. En cas de succès, Symfony authentifie l'utilisateur dans la session et le redirige vers `app_main` (la cible par défaut configurée).
+4. En cas d'échec, la page de connexion récupère l'erreur et le dernier identifiant saisi via `AuthenticationUtils`, puis affiche le message d'erreur.
+
+Le formulaire ne propose pas de case « se souvenir de moi » active et aucun mécanisme de limitation des tentatives de connexion n'est configuré dans ce pare-feu.
+
+#### Création de compte et déconnexion
+
+Après validation du formulaire d'inscription, `RegistrationController` hashe le mot de passe, enregistre le nouvel utilisateur puis le connecte immédiatement avec `Security::login()` sur le pare-feu `main`. L'utilisateur n'a donc pas besoin de soumettre à nouveau le formulaire de connexion après son inscription.
+
+La route `GET /logout` est déclarée par `SecurityController`, mais son action n'est pas exécutée normalement : le mécanisme `logout` du pare-feu intercepte la requête, termine la session d'authentification et redirige vers `app_main`.
+
+#### Autorisation des pages Web
+
+L'authentification établit l'identité de l'utilisateur ; les contrôles d'autorisation déterminent ensuite les pages auxquelles il peut accéder. L'entité `User` ajoute automatiquement le rôle `ROLE_USER` à ses rôles. Certains contrôleurs, comme ceux du panier et des commandes, exigent explicitement ce rôle avec `#[IsGranted('ROLE_USER')]`. Les règles `access_control` actuellement définies dans `security.yaml` concernent les routes API ; elles ne constituent pas une règle générale protégeant toutes les routes Web.
+
+### Authentification API
+
+L'API utilise le bundle **LexikJWTAuthenticationBundle** pour authentifier les clients sans session serveur. Le bundle s'intègre au composant Security de Symfony : il vérifie les identifiants au point d'entrée, émet un jeton JWT signé, puis authentifie les requêtes API suivantes à partir de ce jeton.
+
+#### 1. Obtenir un jeton
+
+Le point d'entrée `POST /api/login` reçoit les identifiants au format JSON. Le champ `username` correspond à l'identifiant Symfony de l'utilisateur, c'est-à-dire son adresse e-mail.
+
+```http
+POST /api/login
+Content-Type: application/json
+```
+
+```json
+{
+    "username": "client@example.com",
+    "password": "votre-mot-de-passe"
+}
+```
+
+Le fournisseur d'utilisateurs configuré dans `security.yaml` recherche le compte par e-mail. Symfony vérifie le mot de passe à l'aide du hasher configuré (`auto`), puis `ApiUserChecker` vérifie avant l'authentification que le compte est autorisé à utiliser l'API (`accesAPI` activé).
+
+En cas de succès, le gestionnaire de succès de Lexik renvoie un jeton dans une réponse JSON, sous la forme `{"token":"<JWT>"}`. En cas d'identifiants invalides, le gestionnaire `ApiAuthenticationFailureHandler` renvoie une réponse JSON `401 Unauthorized`. Si le compte existe mais que son accès API n'est pas activé, il renvoie `403 Forbidden` avec le message correspondant.
+
+#### 2. Appeler une route protégée
+
+Le client transmet le jeton reçu dans l'en-tête `Authorization` de chaque requête vers `/api` :
+
+```http
+GET /api/orders
+Authorization: Bearer <JWT>
+```
+
+Le pare-feu `api` est stateless et utilise l'authentificateur JWT de Lexik. Celui-ci vérifie la signature et la validité du jeton avant de laisser Symfony traiter la requête. Aucun identifiant ni mot de passe n'est renvoyé avec les appels suivants. La durée de vie configurée du jeton est de **7 200 secondes (2 heures)** ; après expiration, le client doit s'authentifier de nouveau.
+
+#### 3. Signature et configuration des clés
+
+Lexik s'appuie sur une paire de clés configurée dans `lexik_jwt_authentication.yaml` :
+
+- la **clé privée** signe les jetons émis ; elle doit rester confidentielle et être protégée sur le serveur ;
+- la **clé publique** permet de vérifier leur signature lors des appels API ;
+- la phrase secrète de la clé privée et les chemins des deux clés sont fournis par les variables d'environnement `JWT_PASSPHRASE`, `JWT_SECRET_KEY` et `JWT_PUBLIC_KEY`.
+
+Pour créer ou renouveler la paire de clés dans `config/jwt/`, la commande fournie par le bundle est :
+
+```bash
+php bin/console lexik:jwt:generate-keypair
+```
+
+En production, les clés et la phrase secrète doivent être configurées de façon sécurisée dans l'environnement de déploiement ; ne publiez jamais la clé privée ni sa phrase secrète.
+
+#### Configuration Symfony mise en œuvre
+
+- Le pare-feu `login` cible `/api/login`, est stateless, autorise la soumission JSON des identifiants et délègue la génération du jeton au gestionnaire de succès de Lexik.
+- Le pare-feu `api` cible les routes `/api` et active `jwt: ~` pour authentifier chaque requête à l'aide du jeton Bearer.
+- La règle d'accès autorise explicitement `/api/login` et `/api/doc`, puis exige une authentification complète pour les autres routes `/api`.
+- Le `ApiUserChecker` contrôle l'habilitation du compte lors de la connexion. Les contrôleurs vérifient également `isAccesAPI()` avant de fournir les données métier.
+
 ### Habilitations API (`isAccesAPI`)
 
 L'accès à l'endpoint API `/api/orders` nécessite deux conditions d'habilitation :
@@ -181,32 +269,32 @@ La gestion des erreurs dans l'application est entièrement **centralisée** grâ
 - **Écoute des Kernel Exceptions** : Le souscripteur écoute l'événement système `KernelEvents::EXCEPTION` pour intercepter toutes les exceptions non gérées survenues au cours du cycle de vie de la requête.
 - **Traitement des erreurs Web (Page d'erreur personnalisée)** : Lorsqu'une erreur survient sur la partie Web de l'application, l'exception est enregistrée dans les logs et l'utilisateur est automatiquement redirigé vers une **page d'erreur élégante et personnalisée** ([`templates/bundles/TwigBundle/Exception/error.html.twig`](file:///c:/Users/Laurent/Documents/dev/OCR-Projet13/templates/bundles/TwigBundle/Exception/error.html.twig)). Cette page informe l'utilisateur du problème technique avec un bouton de retour rapide vers la page d'accueil, tout en exposant des informations de débogage supplémentaires (code, message, fichier et ligne) lorsque l'application s'exécute en mode développement (`dev`).
 - **Réponses API JSON unifiées** : Lorsqu'une erreur survient sur une route d'API (URL commençant par `/api`), l'événement est intercepté par le souscripteur et génère automatiquement une réponse au format JSON structuré avec le code de statut HTTP approprié :
-  ```json
-  {
-      "error": true,
-      "status": 403,
-      "message": "Accès API non autorisé."
-  }
-  ```
+    ```json
+    {
+        "error": true,
+        "status": 403,
+        "message": "Accès API non autorisé."
+    }
+    ```
 
 ### Journalisation & Traçabilité avec Monolog
 
 L'ensemble des erreurs est tracé via le service **Monolog** grâce à des canaux d'injection autonomes (`webLogger` et `apiLogger`) :
 
 - **Fichiers de logs tournants (à la journée)** : Les logs sont automatiquement enregistrés et archivés par date dans des fichiers tournants situés dans le répertoire `var/log/` :
-  - **Erreurs Web** : Tracées dans le fichier journal dédié aux requêtes de l'interface utilisateur web (`var/log/web_error.log`).
-  - **Erreurs API** : Tracées dans le fichier journal dédié aux appels d'endpoints API (`var/log/api_error.log`).
+    - **Erreurs Web** : Tracées dans le fichier journal dédié aux requêtes de l'interface utilisateur web (`var/log/web_error.log`).
+    - **Erreurs API** : Tracées dans le fichier journal dédié aux appels d'endpoints API (`var/log/api_error.log`).
 - **Contexte détaillé** : Chaque entrée de log inclut l'URL, la méthode HTTP, le code de statut, la classe d'exception, le fichier source et la ligne où l'erreur a été levée.
 
 ### Tableau des Codes de Retour HTTP
 
-| Code HTTP | Statut | Cause / Signification | Format de Réponse |
-| :--- | :--- | :--- | :--- |
-| **`200 OK`** | Succès | Liste des commandes ou produits récupérée avec succès. | JSON brut ou page Twig. |
-| **`401 Unauthorized`** | Erreur client | L'utilisateur n'est pas connecté à l'application. | Redirection ou JSON d'erreur d'authentification. |
-| **`403 Forbidden`** | Erreur client | L'utilisateur est connecté mais `isAccesAPI()` renvoie `false`. | `{"error": true, "status": 403, "message": "Accès API non autorisé."}` |
-| **`404 Not Found`** | Erreur client | La ressource ou la route demandée n'existe pas. | Page 404 Web ou JSON d'erreur 404 sur l'API. |
-| **`500 Internal Error`** | Erreur serveur | Exception non interceptée au niveau de l'application. | JSON d'erreur formaté par `ExceptionSubscriber` sur l'API. |
+| Code HTTP                | Statut         | Cause / Signification                                                                              | Format de Réponse                                                                                |
+| :----------------------- | :------------- | :------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------- |
+| **`200 OK`**             | Succès         | Liste des commandes ou produits récupérée avec succès.                                             | JSON brut ou page Twig.                                                                          |
+| **`401 Unauthorized`**   | Erreur client  | Identifiants invalides à la connexion, ou jeton absent, invalide ou expiré sur une route protégée. | JSON d'erreur d'authentification.                                                                |
+| **`403 Forbidden`**      | Erreur client  | Le compte est authentifié mais son accès API (`isAccesAPI()`) n'est pas activé.                    | `{"error": true, "status": 403, "message": "Votre compte n'est pas autorisé à utiliser l'API."}` |
+| **`404 Not Found`**      | Erreur client  | La ressource ou la route demandée n'existe pas.                                                    | Page 404 Web ou JSON d'erreur 404 sur l'API.                                                     |
+| **`500 Internal Error`** | Erreur serveur | Exception non interceptée au niveau de l'application.                                              | JSON d'erreur formaté par `ExceptionSubscriber` sur l'API.                                       |
 
 ---
 

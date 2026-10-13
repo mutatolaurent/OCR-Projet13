@@ -15,6 +15,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Ce contrôleur est responsable de la gestion des produits.
@@ -87,22 +89,33 @@ final class ProductController extends AbstractController
      * @return JsonResponse La réponse JSON contenant la liste des produits
      */
     #[Route('/api/products', name: 'api_product_list', methods: ['GET'])]
-    public function getProductList(ProductRepository $productRepository, SerializerInterface $serializer, RequestStack $requestStack): JsonResponse
+    public function getProductList(ProductRepository $productRepository, SerializerInterface $serializer, RequestStack $requestStack, #[Autowire(service: 'monolog.logger.api')] LoggerInterface $apiLogger): JsonResponse
     {
 
         /** @var User|null $user */
         $user = $this->getUser();
 
-        // Vérification de l'accès à l'API
-        if (!$user || !$user->isAccesAPI()) {
-            return new JsonResponse([
-                'error' => 'Accès API non autorisé.',
-                'message' => 'Veuillez activer votre accès API dans votre espace client.'
-            ], JsonResponse::HTTP_FORBIDDEN); // Statut 403 Forbidden
-        }
-
         // Récupération de l'URL de base pour construire les URLs complètes des images
         $request = $requestStack->getCurrentRequest();
+
+        // Vérification de l'accès à l'API
+        if (!$user || !$user->isAccesAPI()) {
+
+            $statusCode = JsonResponse::HTTP_FORBIDDEN; // 403
+            $message = 'Veuillez activer votre accès API dans votre espace client.';
+
+            $apiLogger->error(sprintf('[API_AUTH_FORBIDDEN] Erreur %d : %s', $statusCode, $message), [
+                'source' => 'API_AUTH_FORBIDDEN',
+                'status_code' => $statusCode,
+                'url' => $request->getUri(),
+                'method' => $request->getMethod(),
+            ]);
+
+            return new JsonResponse([
+                'status' => $statusCode,
+                'message' =>  $message,
+            ], JsonResponse::HTTP_FORBIDDEN); // Statut 403 Forbidden
+        }
 
         // Récupération du schéma et de l'hôte (ex: http://localhost ou https://example.com)
         $schemeAndHost = $request->getSchemeAndHttpHost();
