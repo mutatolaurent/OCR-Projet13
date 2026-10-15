@@ -7,6 +7,10 @@ use App\Entity\SalesOrderProduct;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Service pour gérer la logique métier des commandes (SalesOrder) de l'utilisateur.
+ * Il fournit des méthodes pour créer une commande à partir du panier de l'utilisateur.
+ */
 class OrderService
 {
     public function __construct(

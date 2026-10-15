@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+// Ce service est utilisé pour vérifier les utilisateurs lors de l'authentification via l'API.
 class ApiUserChecker implements UserCheckerInterface
 {
     public function checkPreAuth(UserInterface $user): void

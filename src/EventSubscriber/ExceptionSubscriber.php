@@ -12,6 +12,13 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface as KernelHttpExceptionInterface;
 
+/**
+ * Event subscriber pour gérer les exceptions dans l'application.
+ *
+ * Ce subscriber écoute les événements d'exception et log les erreurs dans des fichiers dédiés (web_error.log ou api_error.log)
+ * selon que l'exception provient de l'API ou du web. Il renvoie également une réponse JSON appropriée pour les exceptions
+ * provenant de l'API.
+ */
 class ExceptionSubscriber implements EventSubscriberInterface
 {
     private string $appEnv;

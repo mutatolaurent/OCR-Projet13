@@ -8,6 +8,11 @@ use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Service pour gérer la logique métier du panier (Basket) de l'utilisateur.
+ * Il fournit des méthodes pour ajouter, mettre à jour, supprimer des produits du panier,
+ * ainsi que pour récupérer les détails du panier et le nombre total d'articles.
+ */
 class BasketService
 {
     public function __construct(
@@ -17,6 +22,13 @@ class BasketService
 
     /**
      * Ajoute, met à jour ou supprime un produit du panier d'un utilisateur.
+     * Si la quantité est supérieure à zéro, le produit est ajouté ou mis à jour.
+     * Si la quantité est égale à zéro, le produit est supprimé du panier.
+     * Si le panier devient vide après l'opération, il est supprimé de la base de données.
+     * @param User $user L'utilisateur pour lequel le panier est géré
+     * @param Product $product Le produit à ajouter, mettre à jour ou supprimer
+     * @param int $quantity La quantité du produit à ajouter ou mettre à jour (0 pour supprimer)
+     *
      */
     public function addOrUpdateItem(User $user, Product $product, int $quantity): void
     {
@@ -73,6 +85,8 @@ class BasketService
 
     /**
      * Retourne les détails du panier d'un utilisateur (items avec sous-totaux et total général)
+     * @param User $user L'utilisateur pour lequel on récupère les détails du panier
+     * @return array Un tableau contenant les items du panier et le total général
      */
     public function getBasketDetails(User $user): array
     {
@@ -104,6 +118,8 @@ class BasketService
 
     /**
      * Retourne le nombre total d'articles dans le panier de l'utilisateur
+     * @param User $user L'utilisateur pour lequel on calcule le total d'articles
+     * @return int Le nombre total d'articles dans le panier
      */
     public function getTotalQuantity(User $user): int
     {
@@ -122,6 +138,8 @@ class BasketService
 
     /**
      * Supprime le panier d'un utilisateur.
+     * Si le panier existe, il est supprimé de la base de données.
+     * @param User $user L'utilisateur pour lequel le panier doit être supprimé
      */
     public function clearBasket(User $user): void
     {

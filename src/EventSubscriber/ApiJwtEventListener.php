@@ -40,16 +40,31 @@ class ApiJwtEventListener implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * Gestion de l'événement JWT manquant.
+     *
+     * @param JWTNotFoundEvent $event L'événement JWT manquant.
+     */
     public function onJwtNotFound(JWTNotFoundEvent $event): void
     {
         $this->handleJwtError($event, 'API_JWT_NOT_FOUND', 'Jeton d\'authentification manquant.');
     }
 
+    /**
+     * Gestion de l'événement JWT invalide.
+     *
+     * @param JWTInvalidEvent $event L'événement JWT invalide.
+     */
     public function onJwtInvalid(JWTInvalidEvent $event): void
     {
         $this->handleJwtError($event, 'API_JWT_INVALID', 'Jeton d\'authentification invalide.');
     }
 
+    /**
+     * Gestion de l'événement JWT expiré.
+     *
+     * @param JWTExpiredEvent $event L'événement JWT expiré.
+     */
     public function onJwtExpired(JWTExpiredEvent $event): void
     {
         $this->handleJwtError($event, 'API_JWT_EXPIRED', 'Jeton d\'authentification expiré.');
@@ -67,6 +82,7 @@ class ApiJwtEventListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $statusCode = JsonResponse::HTTP_UNAUTHORIZED; // 401
 
+        // Log de l'erreur dans le fichier api_error.log
         $this->apiLogger->error(sprintf('[%s] Erreur %d : %s', $source, $statusCode, $message), [
             'source' => $source,
             'status_code' => $statusCode,
@@ -74,6 +90,7 @@ class ApiJwtEventListener implements EventSubscriberInterface
             'method' => $request->getMethod(),
         ]);
 
+        // Définition de la réponse JSON pour l'événement
         $event->setResponse(new JsonResponse([
             'status' => $statusCode,
             'message' => $message

@@ -12,6 +12,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
+/**
+ * Ce contrôleur est responsable de la gestion du panier (Basket) dans l'application.
+ * Il fournit des fonctionnalités pour ajouter, afficher et vider le panier de l'utilisateur connecté.
+ */
 #[IsGranted('ROLE_USER')]
 class BasketController extends AbstractController
 {

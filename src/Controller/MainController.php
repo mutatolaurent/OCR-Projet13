@@ -7,6 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\ProductRepository;
 
+/**
+ * Ce contrôleur est responsable de la page principale de l'application.
+ * Il affiche la liste des produits disponibles sur la page d'accueil.
+ */
 final class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]

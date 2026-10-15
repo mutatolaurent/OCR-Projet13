@@ -10,6 +10,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerI
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
+/**
+ * Gestionnaire de l'échec d'authentification pour l'API.
+ *
+ * Ce gestionnaire est déclenché lorsqu'une tentative d'authentification échoue.
+ * Il log l'erreur dans le fichier api_error.log et renvoie une réponse JSON appropriée
+ * avec un code d'état HTTP correspondant (401 ou 403).
+ */
 class ApiAuthenticationFailureHandler implements AuthenticationFailureHandlerInterface
 {
     public function __construct(
@@ -18,6 +25,7 @@ class ApiAuthenticationFailureHandler implements AuthenticationFailureHandlerInt
     ) {
     }
 
+    // Gestion de l'échec d'authentification
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
     {
         // Détermination du code de statut et du message selon le type d'exception

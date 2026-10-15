@@ -24,13 +24,11 @@ class RegistrationFormType extends AbstractType
             ->add('firstName', TextType::class)
             ->add('email', TextType::class)
             ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
+                'type' => PasswordType::class,  // Utilisation de RepeatedType pour la confirmation du mot de passe
+                'mapped' => false,  // Le champ n'est pas directement mappé à l'entité User, car le mot de passe sera haché avant d'être stocké
                 'invalid_message' => 'Le mot de passe ne correspond pas.',
                 'required' => true,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => ['autocomplete' => 'new-password'],   //
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation mot de passe'],
                 'constraints' => [
@@ -40,7 +38,6 @@ class RegistrationFormType extends AbstractType
                     new Length(
                         min: 6,
                         minMessage: 'Votre mot de passe doit faire au moins {{ limit }} caractères.',
-                        // max length allowed by Symfony for security reasons
                         max: 4096,
                     ),
                     new Regex([
@@ -51,11 +48,10 @@ class RegistrationFormType extends AbstractType
                         'pattern' => '/[0-9]/',
                         'message' => 'Votre mot de passe doit contenir au moins un chiffre.',
                     ]),
-
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                                'mapped' => false,
+                'mapped' => false,  // Le champ n'est pas directement mappé à l'entité User, car il ne correspond pas à une propriété de l'entité
                 'constraints' => [
                     new IsTrue(
                         message: 'Vous devez accepter les CGU de Green Goodies.',
