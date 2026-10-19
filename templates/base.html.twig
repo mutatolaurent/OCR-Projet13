@@ -20,6 +20,7 @@
                 <span class="logo-text">Green Goodies</span>
             </a>
             {# Menu de navigation #}
+            {% block navigation %}
             <nav>
                 <ul>
                     <li><a href="{{ path('app_main') }}">Nos produits</a></li>
@@ -33,6 +34,7 @@
                     {% endif %}
                 </ul>
             </nav>
+            {% endblock %}
         </header>
 
         {# Affichage des messages flash en popup #}

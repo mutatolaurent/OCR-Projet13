@@ -22,6 +22,14 @@ monolog:
             max_files: 30
             channels: ["api"]
 
+        # Gestionnaire pour toutes les requêtes API (info)
+        api_requests:
+            type: rotating_file
+            path: "%kernel.logs_dir%/api_requests.log"
+            level: info
+            max_files: 30
+            channels: ["api"]
+
 when@dev:
     monolog:
         handlers:
