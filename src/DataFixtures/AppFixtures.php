@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $product = new Product();
-        $product->setDesignation("Kit d'hygiène recyclable");
+        $product->setName("Kit d'hygiène recyclable");
         $product->setPicture("p_kit_hygiene.png");
         $product->setPriceCurrent(24.99);
         $product->setShortDescr("Pour une salle de bain éco-friendly");
@@ -86,10 +86,10 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $product = new Product();
-        $product->setDesignation("Shot tropical");
+        $product->setName("Shot tropical");
         $product->setPicture("p_shot_tropical.png");
         $product->setPriceCurrent(4.50);
         $product->setShortDescr("Fruits frais, pressés à froid");
@@ -101,10 +101,10 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $product = new Product();
-        $product->setDesignation("Gourde en bois");
+        $product->setName("Gourde en bois");
         $product->setPicture("p_gourde.png");
         $product->setPriceCurrent(16.90);
         $product->setShortDescr("50cl, bois d'olivier");
@@ -116,10 +116,10 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $product = new Product();
-        $product->setDesignation("Disques Démaquillants x3");
+        $product->setName("Disques Démaquillants x3");
         $product->setPicture("p_demaquillant.png");
         $product->setPriceCurrent(19.90);
         $product->setShortDescr("Solution efficace pour vous démaquiller en douceur");
@@ -131,10 +131,10 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $product = new Product();
-        $product->setDesignation("Bougie Lavande & Patchouli");
+        $product->setName("Bougie Lavande & Patchouli");
         $product->setPicture("p_bougie.png");
         $product->setPriceCurrent(32.00);
         $product->setShortDescr("Cire naturelle");
@@ -146,10 +146,10 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $product = new Product();
-        $product->setDesignation("Brosse à dent");
+        $product->setName("Brosse à dent");
         $product->setPicture("p_brosse_a_dents.png");
         $product->setPriceCurrent(5.40);
         $product->setShortDescr("Bois de hêtre rouge issu de forêts gérées durablement");
@@ -161,10 +161,10 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $product = new Product();
-        $product->setDesignation("Kit couvert en bois");
+        $product->setName("Kit couvert en bois");
         $product->setPicture("p_kit_couvert_bois.png");
         $product->setPriceCurrent(5.40);
         $product->setShortDescr("Revêtement Bio en olivier & sac de transport");
@@ -176,10 +176,10 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $product = new Product();
-        $product->setDesignation("Nécessaire, déodorant Bio");
+        $product->setName("Nécessaire, déodorant Bio");
         $product->setPicture("p_deodorant_bio.png");
         $product->setPriceCurrent(8.50);
         $product->setShortDescr("50ml déodorant à l’eucalyptus");
@@ -191,10 +191,10 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $product = new Product();
-        $product->setDesignation("Savon Bio");
+        $product->setName("Savon Bio");
         $product->setPicture("p_savon_bio.png");
         $product->setPriceCurrent(18.90);
         $product->setShortDescr("Thé, Orange & Girofle");
@@ -206,7 +206,7 @@ class AppFixtures extends Fixture
         $product->setSlug("slug");
         $manager->persist($product);
         $manager->flush(); // Flush to get the ID
-        $product->setSlug($this->generateSlug($product->getId(), $product->getDesignation()));
+        $product->setSlug($this->generateSlug($product->getId(), $product->getName()));
 
         $manager->flush();
     }
