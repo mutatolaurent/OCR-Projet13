@@ -15,6 +15,7 @@ class Basket
     #[ORM\Column]
     private ?int $id = null;
 
+
     #[ORM\OneToOne(inversedBy: 'basket', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -75,7 +76,7 @@ class Basket
     //         $product->setBasket($this);
     //     }
 
-        //return $this;
+    //return $this;
     //}
 
     // public function removeProduct(BasketProduct $product): static

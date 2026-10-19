@@ -59,11 +59,11 @@ class Product
     #[ORM\OneToMany(targetEntity: BasketProduct::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $basketProducts;
 
-    /**
-     * @var Collection<int, SalesOrderProduct>
-     */
-    #[ORM\OneToMany(targetEntity: SalesOrderProduct::class, mappedBy: 'product')]
-    private Collection $salesOrderProducts;
+    // /**
+    //  * @var Collection<int, SalesOrderProduct>
+    //  */
+    // #[ORM\OneToMany(targetEntity: SalesOrderProduct::class, mappedBy: 'product')]
+    // private Collection $salesOrderProducts;
 
     #[ORM\Column]
     #[Groups(['product:read'])]
@@ -76,7 +76,7 @@ class Product
     public function __construct()
     {
         $this->basketProducts = new ArrayCollection();
-        $this->salesOrderProducts = new ArrayCollection();
+        // $this->salesOrderProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,35 +222,35 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, SalesOrderProduct>
-     */
-    public function getSalesOrderProducts(): Collection
-    {
-        return $this->salesOrderProducts;
-    }
+    // /**
+    //  * @return Collection<int, SalesOrderProduct>
+    //  */
+    // public function getSalesOrderProducts(): Collection
+    // {
+    //     return $this->salesOrderProducts;
+    // }
 
-    public function addSalesOrderProduct(SalesOrderProduct $salesOrderProduct): static
-    {
-        if (!$this->salesOrderProducts->contains($salesOrderProduct)) {
-            $this->salesOrderProducts->add($salesOrderProduct);
-            $salesOrderProduct->setProduct($this);
-        }
+    // public function addSalesOrderProduct(SalesOrderProduct $salesOrderProduct): static
+    // {
+    //     if (!$this->salesOrderProducts->contains($salesOrderProduct)) {
+    //         $this->salesOrderProducts->add($salesOrderProduct);
+    //         $salesOrderProduct->setProduct($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeSalesOrderProduct(SalesOrderProduct $salesOrderProduct): static
-    {
-        if ($this->salesOrderProducts->removeElement($salesOrderProduct)) {
-            // set the owning side to null (unless already changed)
-            if ($salesOrderProduct->getProduct() === $this) {
-                $salesOrderProduct->setProduct(null);
-            }
-        }
+    // public function removeSalesOrderProduct(SalesOrderProduct $salesOrderProduct): static
+    // {
+    //     if ($this->salesOrderProducts->removeElement($salesOrderProduct)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($salesOrderProduct->getProduct() === $this) {
+    //             $salesOrderProduct->setProduct(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {

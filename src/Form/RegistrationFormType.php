@@ -20,9 +20,15 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('lastName', TextType::class)
-            ->add('firstName', TextType::class)
-            ->add('email', TextType::class)
+            ->add('lastName', TextType::class, [
+                'attr' => ['autocomplete' => 'family-name']
+            ])
+            ->add('firstName', TextType::class, [
+                'attr' => ['autocomplete' => 'given-name']
+            ])
+            ->add('email', TextType::class, [
+                'attr' => ['autocomplete' => 'email']
+            ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,  // Utilisation de RepeatedType pour la confirmation du mot de passe
                 'mapped' => false,  // Le champ n'est pas directement mappé à l'entité User, car le mot de passe sera haché avant d'être stocké
