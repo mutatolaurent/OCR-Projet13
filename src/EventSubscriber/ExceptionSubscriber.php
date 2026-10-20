@@ -90,14 +90,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
             $event->setResponse(new JsonResponse($data, JsonResponse::HTTP_INTERNAL_SERVER_ERROR));
 
-            // $data = [
-            //     'error' => true,
-            //     'status' => $statusCode,
-            //     'message' => $exception->getMessage() ?: 'Une erreur est survenue sur l\'API.',
-            // ];
-
-            // $event->setResponse(new JsonResponse($data, $statusCode));
-            // return;
         }
     }
 

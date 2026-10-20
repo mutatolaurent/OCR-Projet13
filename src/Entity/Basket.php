@@ -64,36 +64,6 @@ class Basket
     /**
      * @return Collection<int, BasketProduct>
      */
-    // public function getProduct(): Collection
-    // {
-    //     return $this->product;
-    // }
-
-    // public function addProduct(BasketProduct $product): static
-    // {
-    //     if (!$this->product->contains($product)) {
-    //         $this->product->add($product);
-    //         $product->setBasket($this);
-    //     }
-
-    //return $this;
-    //}
-
-    // public function removeProduct(BasketProduct $product): static
-    // {
-    //     if ($this->product->removeElement($product)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($product->getBasket() === $this) {
-    //             $product->setBasket(null);
-    //         }
-    //     }
-
-    //     return $this;
-    // }
-
-    /**
-     * @return Collection<int, BasketProduct>
-     */
     public function getBasketProducts(): Collection
     {
         return $this->basketProducts;

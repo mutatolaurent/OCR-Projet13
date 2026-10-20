@@ -34,7 +34,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,  // Le champ n'est pas directement mappé à l'entité User, car le mot de passe sera haché avant d'être stocké
                 'invalid_message' => 'Le mot de passe ne correspond pas.',
                 'required' => true,
-                'attr' => ['autocomplete' => 'new-password'],   //
+                'attr' => ['autocomplete' => 'new-password'],   // Indique au navigateur que ce champ est destiné à un nouveau mot de passe
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation mot de passe'],
                 'constraints' => [

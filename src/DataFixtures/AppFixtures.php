@@ -75,7 +75,7 @@ class AppFixtures extends Fixture
     {
         $product = new Product();
         $product->setName("Kit d'hygiène recyclable");
-        $product->setPicture("p_kit_hygiene.png");
+        $product->setPicture("p_kit_hygiene.webp");
         $product->setPriceCurrent(24.99);
         $product->setShortDescr("Pour une salle de bain éco-friendly");
         $product->setActive(1);
@@ -90,7 +90,7 @@ class AppFixtures extends Fixture
 
         $product = new Product();
         $product->setName("Shot tropical");
-        $product->setPicture("p_shot_tropical.png");
+        $product->setPicture("p_shot_tropical.webp");
         $product->setPriceCurrent(4.50);
         $product->setShortDescr("Fruits frais, pressés à froid");
         $product->setActive(1);
@@ -105,7 +105,7 @@ class AppFixtures extends Fixture
 
         $product = new Product();
         $product->setName("Gourde en bois");
-        $product->setPicture("p_gourde.png");
+        $product->setPicture("p_gourde.webp");
         $product->setPriceCurrent(16.90);
         $product->setShortDescr("50cl, bois d'olivier");
         $product->setActive(1);
@@ -120,7 +120,7 @@ class AppFixtures extends Fixture
 
         $product = new Product();
         $product->setName("Disques Démaquillants x3");
-        $product->setPicture("p_demaquillant.png");
+        $product->setPicture("p_demaquillant.webp");
         $product->setPriceCurrent(19.90);
         $product->setShortDescr("Solution efficace pour vous démaquiller en douceur");
         $product->setActive(1);
@@ -135,7 +135,7 @@ class AppFixtures extends Fixture
 
         $product = new Product();
         $product->setName("Bougie Lavande & Patchouli");
-        $product->setPicture("p_bougie.png");
+        $product->setPicture("p_bougie.webp");
         $product->setPriceCurrent(32.00);
         $product->setShortDescr("Cire naturelle");
         $product->setActive(1);
@@ -150,7 +150,7 @@ class AppFixtures extends Fixture
 
         $product = new Product();
         $product->setName("Brosse à dent");
-        $product->setPicture("p_brosse_a_dents.png");
+        $product->setPicture("p_brosse_a_dents.webp");
         $product->setPriceCurrent(5.40);
         $product->setShortDescr("Bois de hêtre rouge issu de forêts gérées durablement");
         $product->setActive(1);
@@ -165,7 +165,7 @@ class AppFixtures extends Fixture
 
         $product = new Product();
         $product->setName("Kit couvert en bois");
-        $product->setPicture("p_kit_couvert_bois.png");
+        $product->setPicture("p_kit_couvert_bois.webp");
         $product->setPriceCurrent(5.40);
         $product->setShortDescr("Revêtement Bio en olivier & sac de transport");
         $product->setActive(1);
@@ -180,7 +180,7 @@ class AppFixtures extends Fixture
 
         $product = new Product();
         $product->setName("Nécessaire, déodorant Bio");
-        $product->setPicture("p_deodorant_bio.png");
+        $product->setPicture("p_deodorant_bio.webp");
         $product->setPriceCurrent(8.50);
         $product->setShortDescr("50ml déodorant à l’eucalyptus");
         $product->setActive(1);
@@ -195,7 +195,7 @@ class AppFixtures extends Fixture
 
         $product = new Product();
         $product->setName("Savon Bio");
-        $product->setPicture("p_savon_bio.png");
+        $product->setPicture("p_savon_bio.webp");
         $product->setPriceCurrent(18.90);
         $product->setShortDescr("Thé, Orange & Girofle");
         $product->setActive(1);

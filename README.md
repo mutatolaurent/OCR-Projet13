@@ -24,6 +24,11 @@ Une solution e-commerce backend moderne et écoresponsable basée sur **Symfony 
     - [Habilitations API (`isAccesAPI`)](#habilitations-api-isaccesapi)
     - [Sérialisation & Protection contre les Fuites de Données](#sérialisation--protection-contre-les-fuites-de-données)
 - [🚨 Gestion des Erreurs & Codes HTTP](#-gestion-des-erreurs--codes-http)
+- [🚀 Guide d'Installation Rapide](#-guide-dinstallation-rapide)
+    - [Prérequis](#prérequis)
+    - [Installation](#installation)
+    - [Base de données & Fixtures](#base-de-données--fixtures)
+    - [Lancement du Serveur](#lancement-du-serveur)
 
 ---
 
@@ -292,3 +297,79 @@ L'ensemble des erreurs est tracé via le service **Monolog** grâce à des canau
 | **`500 Internal Error`** | Erreur serveur | Exception non interceptée au niveau de l'application.                                              | JSON d'erreur formaté par `ExceptionSubscriber` sur l'API.                                       |
 
 ---
+
+## 🚀 Guide d'Installation Rapide
+
+### Prérequis
+
+Assurez-vous d'avoir les outils suivants installés sur votre poste :
+
+- **PHP** (version 8.2 ou supérieure)(avec extensions `pdo`, `intl`, `mbstring`, `iconv`, `ctype`)
+- **Composer**
+- Un serveur de base de données (**MySQL** ou **MariaDB**)
+- **Git**
+
+### Installation
+
+1. **Cloner le projet** :
+
+    ```bash
+    git clone https://github.com/mutatolaurent/OCR-Projet13.git
+    cd OCR-Projet13
+    ```
+
+2. **Installer les dépendances PHP** :
+
+    ```bash
+    composer install
+    ```
+
+3. **Configurer les variables d'environnement** :
+   Dupliquez le fichier `.env` en `.env.local` et adaptez le DSN de votre base de données :
+    ```env
+    # .env.local
+    DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/ecommerce_db?serverVersion=8.0&charset=utf8mb4"
+    # Ou pour MariaDB :
+    # DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+    ```
+
+### Base de données & Fixtures
+
+1.  **Créer la base de données** :
+
+    ```bash
+    php bin/console doctrine:database:create
+    ```
+
+2.  **Exécuter les migrations** :
+
+    ```bash
+    php bin/console doctrine:migrations:migrate --no-interaction
+    ```
+
+3.  **(Optionnel) Charger les jeux de données de test (Fixtures)** :
+
+    ```bash
+    php bin/console doctrine:fixtures:load --no-interaction
+    ```
+
+4.  **Générer les clés JWT (API)** :
+    Le projet utilise le bundle LexikJWTAuthentication pour sécuriser l'API. Générez la paire de clés cryptographiques :
+
+        ```bash
+        Symfony console lexik:jwt:generate-keypair --skip-if-exists
+        ```
+
+### Lancement du Serveur
+
+Lancez le serveur de développement local Symfony :
+
+```bash
+symfony server:start
+```
+
+L'application web sera accessible à l'adresse `http://127.0.0.1:8000` et les endpoint API sous `http://127.0.0.1:8000/api/login` et `http://127.0.0.1:8000/api/products`.
+
+---
+
+© 2026 Tous droits réservés. Développé sous Symfony 7.4.
