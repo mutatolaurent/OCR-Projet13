@@ -360,6 +360,28 @@ Assurez-vous d'avoir les outils suivants installés sur votre poste :
         Symfony console lexik:jwt:generate-keypair --skip-if-exists
         ```
 
+    Alternative si cette commande échoue :
+    1. Créer le dossier config/jwt (s'il n'existe pas déja)
+    2. Créer la clé privé grâce à cette commande (dans un terminal GIT Bash si openssl n’est pas installé sur votre poste)
+        ```bash
+        openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+        ```
+    3. Créer la clé publique grâce à cette commande :
+        ```bash
+        openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout
+        ```
+    4. Dans le fichier .env.local , nous pouvons écrire ceci :
+
+        ###> lexik/jwt-authentication-bundle ###
+
+        JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+
+        JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+
+        JWT_PASSPHRASE=[votre passphrase]
+
+        ###< lexik/jwt-authentication-bundle ###
+
 ### Lancement du Serveur
 
 Lancez le serveur de développement local Symfony :
